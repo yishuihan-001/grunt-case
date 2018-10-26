@@ -66,7 +66,7 @@ module.exports = function(grunt){
 						},
 						// fail:不能直接合并
             css: {
-                crc: ['dev/static/css/*.common.css'],
+                src: ['dev/static/css/*.common.css'],
                 dest: 'build/static/css/common.css'
             },
             js: {
@@ -322,37 +322,42 @@ module.exports = function(grunt){
 				// },
 
 
-				// //静态文件服务器2
-				// connect: {
-				// 	options: {
-				// 		port: 8000,
-				// 		hostname: 'localhost',
-				// 		base: 'dev/'
-				// 	},
-				// 	livereload: {
-				// 		options: {
-				// 			middleware: function(connect, options){
-				// 				return [
-				// 					// 把脚本，注入到静态文件中
-				// 					require('connect-livereload')({ port: 35729 }),
-				// 					// 静态文件服务器的路径
-				// 					require('serve-static')(options.base[0]),
-				// 					// 启用目录浏览(相当于IIS中的目录浏览)
-				// 					require('serve-index')(options.base[0])
-				// 				]
-				// 			}
-				// 		}
-				// 	}
-				// },
+				//静态文件服务器2
+				// 不许安装任何插件 当前success
+				connect: {
+					options: {
+						port: 8000,
+						// hostname: 'localhost',
+						hostname: '127.0.0.1',
+						// hostname: '172.19.81.150',
+						base: 'dev/'
+						// base: '.'
+					},
+					livereload: {
+						options: {
+							middleware: function(connect, options){
+								return [
+									// 把脚本，注入到静态文件中
+									require('connect-livereload')({ port: 35729 }),
+									// 静态文件服务器的路径
+									require('serve-static')(options.base[0]),
+									// 启用目录浏览(相当于IIS中的目录浏览)
+									require('serve-index')(options.base[0])
+								]
+							}
+						}
+					}
+				},
 
-				// watch: {
-				// 	client: {
-				// 		options: {
-				// 			livereload: 35729
-				// 		},
-				// 		files: ['<%= connect.options.base %>templates/view/*.html', '<%= connect.options.base %>static/css/*', '<%= connect.options.base %>static/js/*', '<%= connect.options.base %>static/img/*']
-				// 	}
-				// }
+				watch: {
+					client: {
+						options: {
+							livereload: 35729
+						},
+						files: ['<%= connect.options.base %>templates/view/**/*.html', '<%= connect.options.base %>static/css/*', '<%= connect.options.base %>static/js/*', '<%= connect.options.base %>static/img/*']
+						// files: ['dev/templates/view/*.html', 'dev/static/css/*', 'dev/static/js/*', 'dev/static/img/*']
+					}
+				}
 
 
 
@@ -373,7 +378,7 @@ module.exports = function(grunt){
 		grunt.loadNpmTasks('grunt-contrib-connect');
 		grunt.loadNpmTasks('grunt-contrib-watch');
 
-		// grunt.registerTask('default', ['uncss', 'htmlmin']);
+		grunt.registerTask('default', ['uncss', 'htmlmin']);
 
 		// grunt.registerTask('default', 'Log some stuff.', function() {
 		// 	grunt.log.write('Logging some stuff...').ok();
